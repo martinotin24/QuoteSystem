@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - IEMI PROFORMAS</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Bienvenido, Ivan</h1>
+    <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+  </header>
+  <main class="main-content">
+    <div class="menu-card">
+      <h2>Menú Principal</h2>
+      <div class="menu-options">
+        <button class="menu-btn" onclick="crearProforma()">Crear Proformas</button>
+        <button class="menu-btn" onclick="verProformas()">Ver Proformas</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Verificar sesión al cargar el dashboard
+    window.addEventListener("load", function() {
+      fetch('http://localhost:3000/dashboard', { credentials: 'include' })
+        .then(response => {
+          if (!response.ok) {
+            window.location.href = "index.html";
+          }
+        })
+        .catch(error => {
+          window.location.href = "index.html";
+        });
+    });
+
+    function crearProforma() {
+      window.location.href = "iemi.html";
+    }
+    function verProformas() {
+      window.location.href = "proformas.html";
+    }
+    function logout() {
+      fetch('http://localhost:3000/logout', { credentials: 'include' })
+        .then(response => response.json())
+        .then(data => window.location.href = "index.html")
+        .catch(error => window.location.href = "index.html");
+    }
+  </script>
+</body>
+</html>

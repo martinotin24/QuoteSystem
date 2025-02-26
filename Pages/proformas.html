@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ver Proformas - IEMI PROFORMAS</title>
+  <link rel="stylesheet" href="iemi.css">
+  <script>
+    // Función para cargar las proformas almacenadas en localStorage y mostrarlas en la tabla
+    function loadProformas() {
+      let proformasArray = JSON.parse(localStorage.getItem("proformas")) || [];
+      const tableBody = document.getElementById("proformasTableBody");
+      tableBody.innerHTML = ""; // Limpiar la tabla
+      proformasArray.forEach((proforma, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${proforma.id}</td>
+          <td>${proforma.client}</td>
+          <td>${proforma.date}</td>
+          <td>${proforma.total}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Función de logout (similar a la de otras páginas)
+    function logout() {
+      fetch('http://localhost:3000/logout', { credentials: 'include' })
+        .then(response => response.json())
+        .then(data => window.location.href = "index.html")
+        .catch(error => window.location.href = "index.html");
+    }
+
+    window.addEventListener("load", loadProformas);
+  </script>
+</head>
+<body>
+  <!-- Encabezado con menú -->
+  <header class="header">
+    <div class="header-left">
+      <a href="dashboard.html" class="nav-link">Menu Principal</a>
+      <a href="proformas.html" class="nav-link">Ver Proformas</a>
+    </div>
+    <div class="header-right">
+      <button class="logout" onclick="logout()">Salir</button>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="main-container">
+    <div class="card">
+      <h1>Proformas Guardadas</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Proforma Nº</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="proformasTableBody">
+          <!-- Aquí se insertarán dinámicamente las proformas -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
